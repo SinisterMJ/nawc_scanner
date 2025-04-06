@@ -69,7 +69,7 @@ class Notification:
 
         wc = win32gui.WNDCLASS()
         hinst = wc.hInstance = win32api.GetModuleHandle(None)
-        wc.lpszClassName = "DeviceChangeDemo"
+        wc.lpszClassName = "NAWCScannerDetection"
         wc.style = win32con.CS_VREDRAW | win32con.CS_HREDRAW
         wc.hCursor = win32gui.LoadCursor(0, win32con.IDC_ARROW)
         wc.hbrBackground = win32con.COLOR_WINDOW
@@ -78,7 +78,7 @@ class Notification:
         style = win32con.WS_OVERLAPPED | win32con.WS_SYSMENU
         self.hwnd = win32gui.CreateWindow(
             classAtom,
-            "Device Change Demo",
+            "NAWC Scanner Detection",
             style,
             0, 0,
             win32con.CW_USEDEFAULT, win32con.CW_USEDEFAULT,

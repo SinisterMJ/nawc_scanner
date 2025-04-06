@@ -123,6 +123,6 @@ while not exit_code:
         time.sleep(wait_time)
 
 
-handle_window = win32gui.FindWindow(None, "Device Change Demo")
+handle_window = win32gui.FindWindow(None, "NAWC Scanner Detection")
 win32gui.SendMessage(handle_window, win32con.WM_QUIT, 0, 0)
 t.join()
