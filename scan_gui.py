@@ -110,7 +110,7 @@ def click_event(event, x, y, flags, param):
 # Initialize window
 display_image()
 cv2.setMouseCallback("NAWC Scanner", click_event)
-keyboard.hook(callback_keyboard)
+keyboard.hook_key("esc", callback_keyboard)
 
 index = 0
 
