@@ -1,15 +1,15 @@
 import cv2
-import numpy as np
 import time
-from device_change import create_listener
 import glob
+import keyboard
+import win32gui
+import win32con
+
+from device_change import create_listener
 from display import get_all, show_fullscreen, get_index_clicked
 from display import print_clicked, finish_clicked
 from scanned_page import Canvas
 from print import print_image
-import keyboard
-import win32gui
-import win32con
 
 image_list = []
 fps = 1
