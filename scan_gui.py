@@ -7,6 +7,7 @@ from display import get_all, show_fullscreen, get_index_clicked
 from display import print_clicked, finish_clicked
 from scanned_page import Canvas
 from print import print_image
+import keyboard
 import win32gui
 import win32con
 
@@ -14,6 +15,14 @@ image_list = []
 fps = 1
 offset = 0
 max_scroll = False
+exit_code = False
+
+
+def callback_keyboard(event):
+    if event.name == 'esc':
+        global exit_code
+        exit_code = True
+
 
 def callback_arrival(letter: str):
     """
@@ -101,20 +110,18 @@ def click_event(event, x, y, flags, param):
 # Initialize window
 display_image()
 cv2.setMouseCallback("NAWC Scanner", click_event)
+keyboard.hook(callback_keyboard)
 
 index = 0
-while True:
+
+while not exit_code:
     start = time.time()
     display_image()
     end = time.time()
-    wait_time = int((1 / fps - (end - start)) * 1000)
+    wait_time = 1 / fps - (end - start)
     if wait_time > 0:
-        k = cv2.waitKey(wait_time) & 0xFF
-    else:
-        k = cv2.waitKey(1) & 0xFF
+        time.sleep(wait_time)
 
-    if k == 27:
-        break
 
 handle_window = win32gui.FindWindow(None, "Device Change Demo")
 win32gui.SendMessage(handle_window, win32con.WM_QUIT, 0, 0)
