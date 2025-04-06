@@ -7,7 +7,8 @@ from display import get_all, show_fullscreen, get_index_clicked
 from display import print_clicked, finish_clicked
 from scanned_page import Canvas
 from print import print_image
-
+import win32gui
+import win32con
 
 image_list = []
 fps = 1
@@ -25,6 +26,8 @@ def callback_arrival(letter: str):
     Args:
         letter (str): The drive letter of the connected device.
     """
+    print("Device connected: " + letter)
+    return
     file_list = glob.glob(letter + ":\\DCIM\\*\\*.jpg")
     for file in file_list:
         canvas = Canvas()
@@ -44,6 +47,8 @@ def callback_removal():
 
     This function clears the global `image_list` and resets the frame rate to its default value.
     """
+    print("Device disconnected")
+    return
     image_list.clear()
     global fps
     fps = 1
@@ -94,18 +99,27 @@ def click_event(event, x, y, flags, param):
             return
         
         index = get_index_clicked(x, y, offset, image_list)
-        if index is not None:
+        if index != -1:
             image_list[index].change_printable()
 
 # Initialize window
 display_image()
 cv2.setMouseCallback("NAWC Scanner", click_event)
 
-
+index = 0
 while True:
     start = time.time()
     display_image()
     end = time.time()
-    # Limit to 30 FPS maximum
-    if (1 / fps - (end - start)) > 0:
-        time.sleep(1 / fps - (end - start))
+    wait_time = int((1 / fps - (end - start)) * 1000)
+    if wait_time > 0:
+        k = cv2.waitKey(wait_time) & 0xFF
+    else:
+        k = cv2.waitKey(1) & 0xFF
+
+    if k == 27:
+        break
+
+handle_window = win32gui.FindWindow(None, "Device Change Demo")
+win32gui.SendMessage(handle_window, win32con.WM_QUIT, 0, 0)
+t.join()

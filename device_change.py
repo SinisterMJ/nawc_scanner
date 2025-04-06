@@ -1,7 +1,7 @@
 import win32api, win32con, win32gui
 from ctypes import *
 from threading import Thread
-from multiprocessing import Process
+import time
 
 #
 # Device change events (WM_DEVICECHANGE wParam)
@@ -63,7 +63,8 @@ def drive_from_mask(mask):
 class Notification:
     def __init__(self):
         message_map = {
-            win32con.WM_DEVICECHANGE: self.onDeviceChange
+            win32con.WM_DEVICECHANGE: self.onDeviceChange,
+            win32con.WM_QUIT: self.onDeviceChange,
         }
 
         wc = win32gui.WNDCLASS()
@@ -84,6 +85,7 @@ class Notification:
             0, 0,
             hinst, None
         )
+        print("my handle is ", self.hwnd)
 
     def register_callbacks(self, device_arrival, device_removal):
         self.dvc_arr = device_arrival
@@ -98,7 +100,7 @@ class Notification:
         #  lParam - what's changed more exactly
         #
         dev_broadcast_hdr = DEV_BROADCAST_HDR.from_address(lparam)
-
+        print("Message received")
         if wparam == DBT_DEVICEARRIVAL:
             if dev_broadcast_hdr.dbch_devicetype == DBT_DEVTYP_VOLUME:                
                 dev_broadcast_volume = DEV_BROADCAST_VOLUME.from_address(lparam)
@@ -114,7 +116,16 @@ class Notification:
 def listener_thread(clb_arr, clb_rem):
     w = Notification()
     w.register_callbacks(clb_arr, clb_rem)
-    win32gui.PumpMessages()
+    while True:
+        msg = win32gui.PumpWaitingMessages()
+        print(msg)
+        time.sleep(0.1)
+        if msg == 0:
+            break
+    # win32gui.PumpMessages()
+    # import time
+    # time.sleep(300)
+    # print("Listener thread finished")
 
 
 def create_listener(clb_arr, clb_rem):

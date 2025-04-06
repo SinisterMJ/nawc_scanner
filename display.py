@@ -188,6 +188,7 @@ def get_index_clicked(x: int, y: int, offset: int, image_list: list = None):
 
         if idx % 2 == 1:
             curr_offset += max(size_left, size_right) + 30
+    return None
 
 
 def print_clicked(x: int, y:int) -> bool:
