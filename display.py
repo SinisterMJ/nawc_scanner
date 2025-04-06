@@ -7,9 +7,15 @@ res_x = get_monitors()[0].width
 res_y = get_monitors()[0].height
 scale = 0.35
 
-printer = cv2.imread("nawc/scanner/Printer.jpg")
-finish = cv2.imread("nawc/scanner/495473.png")
+printer = cv2.imread("Printer.jpg")
+finish = cv2.imread("495473.png")
 finish = cv2.resize(finish, (printer.shape[0], printer.shape[1]))
+
+background_idle = cv2.imread(filename="black_background_red_color_paint_explosion_burst_9844_1920x1080.jpg")
+background_idle = cv2.resize(background_idle, (res_x, res_y))
+
+background_busy = cv2.imread(filename="PCGGiJM-dota-2-wallpapers.jpg")
+background_busy = cv2.resize(background_busy, (res_x, res_y))
 
 _FULL_FRAMES = {}
 
@@ -67,15 +73,30 @@ def show_fullscreen(image, background_colour = None, window_name='window', displ
     cv2.waitKey(1)
 
 def get_all(image_list, offset: int = 0):
+    """
+    Generates a composite image by arranging a list of canvases and overlaying additional elements.
+
+    This function takes a list of canvases, arranges them in a grid-like layout, and overlays 
+    additional elements such as a printer and finish icons. It also handles scrolling behavior 
+    based on the provided offset.
+
+    Args:
+        image_list (list): A list of `Canvas` objects to be displayed. Each canvas should have 
+                           `resize_image` and `get_image` methods.
+        offset (int, optional): The vertical offset for scrolling the composite image. Defaults to 0.
+
+    Returns:
+        tuple: A tuple containing:
+            - image (numpy.ndarray): The generated composite image.
+            - bool: A flag indicating whether the entire image fits within the display area 
+                    (True if it fits, False if it overflows).
+    """    
     if len(image_list) == 0:
-        image = cv2.imread(filename="nawc/scanner/black_background_red_color_paint_explosion_burst_9844_1920x1080.jpg")
-        image = cv2.resize(image, (res_x, res_y))
-        return image, True
+        return background_idle, True
     else:
         curr_offset = 30
 
-        image = cv2.imread(filename="nawc/scanner/PCGGiJM-dota-2-wallpapers.jpg")
-        image = cv2.resize(image, (res_x, res_y))
+        image = background_busy.copy()
 
         size_left = 0
         size_right = 0
@@ -122,6 +143,22 @@ def get_all(image_list, offset: int = 0):
     
 
 def get_index_clicked(x: int, y: int, offset: int, image_list: list = None):
+    """
+    Determines the index of the canvas clicked based on the provided coordinates.
+
+    This function calculates which canvas in the `image_list` was clicked, taking into account
+    the vertical offset and the layout of the canvases.
+
+    Args:
+        x (int): The x-coordinate of the click.
+        y (int): The y-coordinate of the click.
+        offset (int): The vertical offset for scrolling.
+        image_list (list, optional): A list of `Canvas` objects. Each canvas should have 
+                                     `resize_image` and `get_image` methods.
+
+    Returns:
+        int: The index of the clicked canvas, or -1 if no canvas was clicked.
+    """
     if len(image_list) == 0:
         return -1
     
@@ -154,9 +191,27 @@ def get_index_clicked(x: int, y: int, offset: int, image_list: list = None):
 
 
 def print_clicked(x: int, y:int) -> bool:
+    """
+    Checks if the "print" button was clicked based on the provided coordinates.
+
+    Args:
+        x (int): The x-coordinate of the click.
+        y (int): The y-coordinate of the click.
+
+    Returns:
+        bool: True if the "print" button was clicked, False otherwise.
+    """    
     return (res_y - 800) <= y <= (res_y - 800 + printer.shape[0]) and (res_x - 300) <= x <= (res_x - 300 + printer.shape[1])
 
 def finish_clicked(x: int, y:int) -> bool:
-    return (res_y - 300) <= y <= (res_y - 300 + printer.shape[0]) and (res_x - 300) <= x <= (res_x - 300 + printer.shape[1])
+    """
+    Checks if the "finish" button was clicked based on the provided coordinates.
 
-        
+    Args:
+        x (int): The x-coordinate of the click.
+        y (int): The y-coordinate of the click.
+
+    Returns:
+        bool: True if the "finish" button was clicked, False otherwise.
+    """    
+    return (res_y - 300) <= y <= (res_y - 300 + printer.shape[0]) and (res_x - 300) <= x <= (res_x - 300 + printer.shape[1])

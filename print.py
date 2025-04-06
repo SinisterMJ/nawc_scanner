@@ -2,27 +2,20 @@ from PIL import Image, ImageWin
 from win32 import win32print
 import win32ui
 
-# def click_event(event, x, y, flags, param):
-#     if event == cv2.EVENT_LBUTTONDOWN:
-#         blue = img[x, y, 0]
-#         green = img[x, y, 1]
-#         red = img[x, y, 2]
-#         print(blue, ' ', green, ' ', red)
-#         print(x, ' ', y)
-#     if event == cv2.EVENT_MOUSEWHEEL:
-#         print(flags > 0)
-
-
-# img = np.zeros((577, 433, 3), np.uint8)
-
-# print(img.shape)
-# cv2.imshow('image', img)
-# cv2.setMouseCallback('image', click_event)
-
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
 
 def print_image(image_path):
+    """
+    Prints an image to the default printer.
+
+    This function opens an image file, scales it to fit the printable area of the default printer, 
+    and sends it to the printer for printing.
+
+    Args:
+        image_path (str): The file path of the image to be printed.
+
+    Raises:
+        OSError: If the image file cannot be opened or processed.
+    """    
     # Open the image file
     image = Image.open(image_path)
 
@@ -54,7 +47,3 @@ def print_image(image_path):
         hdc.DeleteDC()
     finally:
         win32print.ClosePrinter(hprinter)
-
-# Example usage
-# image_path = "C:\\Users\\Anton Roth\\Pictures\\58c316fe5f3ca81d008b4851.jpg"
-# print_image(image_path)

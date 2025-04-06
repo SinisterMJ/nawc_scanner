@@ -15,6 +15,16 @@ offset = 0
 max_scroll = False
 
 def callback_arrival(letter: str):
+    """
+    Handles the event when a new device is connected.
+
+    This function scans the connected device for image files in the DCIM directory, 
+    loads them into `Canvas` objects, and appends them to the global `image_list`. 
+    It also resets the scrolling offset, maximum scroll flag, and updates the frame rate.
+
+    Args:
+        letter (str): The drive letter of the connected device.
+    """
     file_list = glob.glob(letter + ":\\DCIM\\*\\*.jpg")
     for file in file_list:
         canvas = Canvas()
@@ -29,6 +39,11 @@ def callback_arrival(letter: str):
 
 
 def callback_removal():
+    """
+    Handles the event when a device is disconnected.
+
+    This function clears the global `image_list` and resets the frame rate to its default value.
+    """
     image_list.clear()
     global fps
     fps = 1
@@ -80,7 +95,7 @@ def click_event(event, x, y, flags, param):
         
         index = get_index_clicked(x, y, offset, image_list)
         if index is not None:
-            image_list[index].printable = not image_list[index].printable
+            image_list[index].change_printable()
 
 # Initialize window
 display_image()
