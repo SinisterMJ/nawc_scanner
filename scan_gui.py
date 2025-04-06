@@ -26,8 +26,6 @@ def callback_arrival(letter: str):
     Args:
         letter (str): The drive letter of the connected device.
     """
-    print("Device connected: " + letter)
-    return
     file_list = glob.glob(letter + ":\\DCIM\\*\\*.jpg")
     for file in file_list:
         canvas = Canvas()
@@ -47,8 +45,6 @@ def callback_removal():
 
     This function clears the global `image_list` and resets the frame rate to its default value.
     """
-    print("Device disconnected")
-    return
     image_list.clear()
     global fps
     fps = 1
