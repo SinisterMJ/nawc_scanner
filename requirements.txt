@@ -2,3 +2,4 @@ Pillow
 pywin32
 opencv-python
 screeninfo
+keyboard
