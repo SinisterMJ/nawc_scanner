@@ -77,8 +77,10 @@ def print_selected():
 
 
 def finish_device():
-    for canvas in image_list:
-        pass
+    image_list.clear()
+    global fps
+    fps = 1%
+    # for canvas in image_list:
         # Delete files here
 
 
