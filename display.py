@@ -160,7 +160,7 @@ def get_index_clicked(x: int, y: int, offset: int, image_list: list = None):
         int: The index of the clicked canvas, or -1 if no canvas was clicked.
     """
     if len(image_list) == 0:
-        return -1
+        return None
     
     curr_offset = 30
     size_left = 0

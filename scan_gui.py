@@ -104,7 +104,7 @@ def click_event(event, x, y, flags, param):
             return
         
         index = get_index_clicked(x, y, offset, image_list)
-        if index != -1:
+        if index is not None:
             image_list[index].change_printable()
 
 # Initialize window
