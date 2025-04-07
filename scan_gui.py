@@ -88,12 +88,13 @@ def click_event(event, x, y, flags, param):
     global offset
     global max_scroll
     if event == cv2.EVENT_MOUSEWHEEL:
-        offset += 50 if flags < 0 else -50
+        offset += 150 if flags < 0 else -150
         if max_scroll:
-            offset -= 50
+            offset -= 150
 
         if offset < 0:
             offset = 0
+
     if event == cv2.EVENT_LBUTTONDOWN:
         global image_list
 

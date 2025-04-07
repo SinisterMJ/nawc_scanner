@@ -115,11 +115,6 @@ def listener_thread(clb_arr, clb_rem):
     w = Notification()
     w.register_callbacks(clb_arr, clb_rem)
     win32gui.PumpMessages()
-    # while True:
-    #     msg = win32gui.PumpWaitingMessages()
-    #     time.sleep(0.1)
-    #     if msg == 0:
-    #         break
 
 
 def create_listener(clb_arr, clb_rem):

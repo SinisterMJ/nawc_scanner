@@ -126,6 +126,8 @@ def get_all(image_list, offset: int = 0):
             image_y_bottom = min(image.shape[0] - curr_offset + offset + image_y_top, y_res)
 
             y_res = image_y_bottom - image_y_top
+            if y_res > target_y_bottom - target_y_top:#
+               image_y_bottom = image_y_top + target_y_bottom - target_y_top
 
             if y_res > 0:
                 image[target_y_top:target_y_bottom, 30 + x_offset:30 + x_offset + x_res] = image_scan[image_y_top:image_y_bottom, 0:x_res]
