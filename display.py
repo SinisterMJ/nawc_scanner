@@ -19,6 +19,17 @@ background_busy = cv2.resize(background_busy, (res_x, res_y))
 
 _FULL_FRAMES = {}
 
+"""
+Read image with alpha:
+cv2.imread(filename, cv2.IMREAD_UNCHANGED)
+
+Extract alpha channel:
+image[:, :, 3]
+
+Extract RGB channels:
+image[:, :, :3]
+"""
+
 def show_fullscreen(image, background_colour = None, window_name='window', display_number = 0, display_sizes=None):
     """
     Draw a fullscreen image.
