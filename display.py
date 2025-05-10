@@ -13,10 +13,10 @@ printer = cv2.resize(printer, (200, 200))
 finish = cv2.imread("Finish.png", -1)
 finish = cv2.resize(finish, (printer.shape[0], printer.shape[1]))
 
-background_idle = cv2.imread(filename="black_background_red_color_paint_explosion_burst_9844_1920x1080.jpg")
+background_idle = cv2.imread(filename="Scans_idle.png")
 background_idle = cv2.resize(background_idle, (res_x, res_y))
 
-background_busy = cv2.imread(filename="PCGGiJM-dota-2-wallpapers.jpg")
+background_busy = cv2.imread(filename="Scans_connected.png")
 background_busy = cv2.resize(background_busy, (res_x, res_y))
 
 _FULL_FRAMES = {}
