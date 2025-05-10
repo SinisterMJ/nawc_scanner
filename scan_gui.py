@@ -10,6 +10,11 @@ from display import get_all, show_fullscreen, get_index_clicked
 from display import print_clicked, finish_clicked
 from scanned_page import Canvas
 from print import print_image
+from screeninfo import get_monitors
+from scanned_page import Canvas
+
+res_x = get_monitors()[0].width
+res_y = get_monitors()[0].height
 
 image_list = []
 fps = 1
@@ -65,13 +70,13 @@ t = create_listener(callback_arrival, callback_removal)
 def display_image():
     global max_scroll
     res, max_scroll = get_all(image_list, offset=offset)
-    show_fullscreen(res, background_colour=(128, 255, 0), display_sizes=[(1920, 1080), (2560, 1600)], display_number=0, window_name="NAWC Scanner")
+    show_fullscreen(res, background_colour=(128, 255, 0), display_sizes=[(res_x, res_y), (2560, 1600)], display_number=0, window_name="NAWC Scanner")
 
 
 def print_selected():
     for canvas in image_list:
         if canvas.printable:
-            print_image(canvas.file)
+            print_image(canvas.get_image_path_for_printing())
             canvas.printable = False
             time.sleep(0.5)
 

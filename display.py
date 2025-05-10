@@ -2,13 +2,15 @@ import cv2
 import numpy as np
 from screeninfo import get_monitors
 from scanned_page import Canvas
+from image_helper import copy_with_alpha
 
 res_x = get_monitors()[0].width
 res_y = get_monitors()[0].height
-scale = 0.35
+scale = 0.3
 
-printer = cv2.imread("Printer.jpg")
-finish = cv2.imread("495473.png")
+printer = cv2.imread("Printer.png", -1)
+printer = cv2.resize(printer, (200, 200))
+finish = cv2.imread("Finish.png", -1)
 finish = cv2.resize(finish, (printer.shape[0], printer.shape[1]))
 
 background_idle = cv2.imread(filename="black_background_red_color_paint_explosion_burst_9844_1920x1080.jpg")
@@ -106,14 +108,15 @@ def get_all(image_list, offset: int = 0):
         return background_idle, True
     else:
         curr_offset = 30
+        offset_left = 60
 
         image = background_busy.copy()
 
         size_left = 0
         size_right = 0
 
-        image[res_y - 800: res_y - 800 + printer.shape[0], res_x - 300: res_x - 300 + printer.shape[1]] = printer
-        image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 300: res_x - 300 + finish.shape[1]] = finish
+        image[res_y - 800: res_y - 800 + printer.shape[0], res_x - 300: res_x - 300 + printer.shape[1]] = copy_with_alpha(image[res_y - 800: res_y - 800 + printer.shape[0], res_x - 300: res_x - 300 + printer.shape[1]], printer)
+        image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 300: res_x - 300 + finish.shape[1]] = copy_with_alpha(image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 300: res_x - 300 + finish.shape[1]], finish)
         
         for idx, canvas in enumerate(image_list):
             x_offset = 0
@@ -141,7 +144,8 @@ def get_all(image_list, offset: int = 0):
                image_y_bottom = image_y_top + target_y_bottom - target_y_top
 
             if y_res > 0:
-                image[target_y_top:target_y_bottom, 30 + x_offset:30 + x_offset + x_res] = image_scan[image_y_top:image_y_bottom, 0:x_res]
+                image[target_y_top:target_y_bottom, offset_left + x_offset:offset_left + x_offset + x_res] = copy_with_alpha(image[target_y_top:target_y_bottom, offset_left + x_offset:offset_left + x_offset + x_res], image_scan[image_y_top:image_y_bottom, 0:x_res])
+                # image[target_y_top:target_y_bottom, 30 + x_offset:30 + x_offset + x_res] = image_scan[image_y_top:image_y_bottom, 0:x_res]
 
             if idx % 2 == 1:
                 curr_offset += max(size_left, size_right) + 30
