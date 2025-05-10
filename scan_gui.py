@@ -12,9 +12,16 @@ from scanned_page import Canvas
 from print import print_image
 from screeninfo import get_monitors
 from scanned_page import Canvas
+import os
 
-res_x = get_monitors()[0].width
-res_y = get_monitors()[0].height
+res_x_left = get_monitors()[0].width
+res_y_left = get_monitors()[0].height
+res_x_right = 0
+res_y_right = 0
+
+if len(get_monitors()) > 1:
+    res_x_right = get_monitors()[1].width
+    res_y_right = get_monitors()[1].height
 
 image_list = []
 fps = 1
@@ -70,7 +77,7 @@ t = create_listener(callback_arrival, callback_removal)
 def display_image():
     global max_scroll
     res, max_scroll = get_all(image_list, offset=offset)
-    show_fullscreen(res, background_colour=(128, 255, 0), display_sizes=[(res_x, res_y), (2560, 1600)], display_number=0, window_name="NAWC Scanner")
+    show_fullscreen(res, background_colour=(128, 255, 0), display_sizes=[(res_x_left, res_y_left), (res_x_right, res_y_right)], display_number=0, window_name="NAWC Scanner")
 
 
 def print_selected():
@@ -85,8 +92,9 @@ def finish_device():
     image_list.clear()
     global fps
     fps = 1
-    # for canvas in image_list:
+    for canvas in image_list:
         # Delete files here
+        os.remove(canvas.get_image_path_for_printing())
 
 
 def click_event(event, x, y, flags, param):    
