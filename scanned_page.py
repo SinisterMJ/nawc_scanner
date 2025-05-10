@@ -24,13 +24,15 @@ class Canvas():
         
         if w * math.sqrt(2) > h:
             w = int(h / math.sqrt(2))
-            self.image = self.image[:w, :]
+            self.image = self.image[:, :w]
         else:
             h = int(w * math.sqrt(2))
-            self.image = self.image[:, :h]
+            self.image = self.image[:h, :]
+        
+        h, w = self.image.shape[:2]
 
         # At this point, h > w, so insert at certain scale at bottom
-        size_cm_logo = 2.5
+        size_cm_logo = 5
         nawc_copy = nawc_logo.copy()
         size = int(w * size_cm_logo / 21)
         size = size // 2 * 2
