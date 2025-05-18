@@ -1,36 +1,29 @@
 import cv2
 import numpy as np
 from screeninfo import get_monitors
-from scanned_page import Canvas
 from image_helper import copy_with_alpha
 
 res_x = get_monitors()[0].width
 res_y = get_monitors()[0].height
-scale = 0.3
+scale = 0.35
 
 printer = cv2.imread("Printer.png", -1)
-printer = cv2.resize(printer, (200, 200))
+printer = cv2.resize(printer, (300, 300), interpolation=cv2.INTER_LANCZOS4)
+
 finish = cv2.imread("Finish.png", -1)
-finish = cv2.resize(finish, (printer.shape[0], printer.shape[1]))
+finish = cv2.resize(finish, (printer.shape[0], printer.shape[1]), interpolation=cv2.INTER_LANCZOS4)
+
+nawc_logo = cv2.imread("LOGO-Kreis_300.png", -1)
+nawc_logo = cv2.resize(nawc_logo, (printer.shape[0], printer.shape[1]), interpolation=cv2.INTER_LANCZOS4)
 
 background_idle = cv2.imread(filename="Scans_idle.png")
-background_idle = cv2.resize(background_idle, (res_x, res_y))
+background_idle = cv2.resize(background_idle, (res_x, res_y), interpolation=cv2.INTER_LANCZOS4)
 
-background_busy = cv2.imread(filename="Scans_connected.png")
-background_busy = cv2.resize(background_busy, (res_x, res_y))
+background_busy = cv2.imread(filename="Bild_2_lila.png")
+background_busy = cv2.resize(background_busy, (res_x, res_y), interpolation=cv2.INTER_LANCZOS4)
 
 _FULL_FRAMES = {}
 
-"""
-Read image with alpha:
-cv2.imread(filename, cv2.IMREAD_UNCHANGED)
-
-Extract alpha channel:
-image[:, :, 3]
-
-Extract RGB channels:
-image[:, :, :3]
-"""
 
 def show_fullscreen(image, background_colour = None, window_name='window', display_number = 0, display_sizes=None):
     """
@@ -108,15 +101,15 @@ def get_all(image_list, offset: int = 0):
         return background_idle, True
     else:
         curr_offset = 30
-        offset_left = 60
 
         image = background_busy.copy()
 
         size_left = 0
         size_right = 0
-
-        image[res_y - 800: res_y - 800 + printer.shape[0], res_x - 300: res_x - 300 + printer.shape[1]] = copy_with_alpha(image[res_y - 800: res_y - 800 + printer.shape[0], res_x - 300: res_x - 300 + printer.shape[1]], printer)
-        image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 300: res_x - 300 + finish.shape[1]] = copy_with_alpha(image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 300: res_x - 300 + finish.shape[1]], finish)
+        
+        image[res_y - 1100: res_y - 1100 + nawc_logo.shape[0], res_x - 400: res_x - 400 + nawc_logo.shape[1]] = copy_with_alpha(image[res_y - 1100: res_y - 1100 + nawc_logo.shape[0], res_x - 400: res_x - 400 + nawc_logo.shape[1]], nawc_logo)
+        image[res_y - 700: res_y - 700 + printer.shape[0], res_x - 400: res_x - 400 + printer.shape[1]] = copy_with_alpha(image[res_y - 700: res_y - 700 + printer.shape[0], res_x - 400: res_x - 400 + printer.shape[1]], printer)
+        image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 400: res_x - 400 + finish.shape[1]] = copy_with_alpha(image[res_y - 300: res_y - 300 + finish.shape[0], res_x - 400: res_x - 400 + finish.shape[1]], finish)
         
         for idx, canvas in enumerate(image_list):
             x_offset = 0
@@ -144,8 +137,7 @@ def get_all(image_list, offset: int = 0):
                image_y_bottom = image_y_top + target_y_bottom - target_y_top
 
             if y_res > 0:
-                image[target_y_top:target_y_bottom, offset_left + x_offset:offset_left + x_offset + x_res] = copy_with_alpha(image[target_y_top:target_y_bottom, offset_left + x_offset:offset_left + x_offset + x_res], image_scan[image_y_top:image_y_bottom, 0:x_res])
-                # image[target_y_top:target_y_bottom, 30 + x_offset:30 + x_offset + x_res] = image_scan[image_y_top:image_y_bottom, 0:x_res]
+                image[target_y_top:target_y_bottom, 30 + x_offset:30 + x_offset + x_res] = copy_with_alpha(image[target_y_top:target_y_bottom, 30 + x_offset:30 + x_offset + x_res], image_scan[image_y_top:image_y_bottom, 0:x_res])
 
             if idx % 2 == 1:
                 curr_offset += max(size_left, size_right) + 30

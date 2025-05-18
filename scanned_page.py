@@ -3,7 +3,7 @@ import numpy as np
 import math
 from image_helper import copy_with_alpha
 
-nawc_logo = cv2.imread("nawc_logo.png", -1)
+nawc_logo = cv2.imread("LOGO-Kreis.png", -1)
 nawc_logo = cv2.resize(nawc_logo, (1000, 1000))
 
 
@@ -37,7 +37,7 @@ class Canvas():
         size = int(w * size_cm_logo / 21)
         size = size // 2 * 2
         nawc_copy = cv2.resize(nawc_copy, (size, size))
-        self.image[h - nawc_copy.shape[1]:h, w//2 - nawc_copy.shape[0]//2:w // 2 + nawc_copy.shape[0] // 2] = copy_with_alpha(self.image[h - nawc_copy.shape[1]:h, w//2 - nawc_copy.shape[0]//2:w // 2 + nawc_copy.shape[0] // 2], nawc_copy)
+        self.image[h - nawc_copy.shape[1] - 50:h - 50, w//2 - nawc_copy.shape[0]//2:w // 2 + nawc_copy.shape[0] // 2] = copy_with_alpha(self.image[h - nawc_copy.shape[1] - 50:h - 50, w//2 - nawc_copy.shape[0]//2:w // 2 + nawc_copy.shape[0] // 2], nawc_copy)
         self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.image = cv2.cvtColor(self.image, cv2.COLOR_GRAY2BGRA)
 
