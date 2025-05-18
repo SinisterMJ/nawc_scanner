@@ -49,7 +49,7 @@ class Canvas():
 
         ratio = width / w        
         new_size = int(w * ratio), int(h * ratio)
-        self.image = cv2.resize(self.image, new_size)
+        self.display_image = cv2.resize(self.image, new_size)
         self.output_size = (new_size[1], new_size[0])
         self.canvas_image = np.zeros((self.output_size[0] + 2 * self.border, self.output_size[1] + 2 * self.border, 4), np.uint8)
         if self.printable:
@@ -57,7 +57,7 @@ class Canvas():
         else:
             self.canvas_image[:] = (0, 0, 255, 0)
 
-        self.canvas_image[self.border:self.border + self.output_size[0], self.border:self.border + self.output_size[1]] = self.image
+        self.canvas_image[self.border:self.border + self.output_size[0], self.border:self.border + self.output_size[1]] = self.display_image
 
     def change_printable(self):
         self.printable = not self.printable
@@ -65,7 +65,7 @@ class Canvas():
             self.canvas_image[:] = (102, 204, 102, 255)
         else:
             self.canvas_image[:] = (0, 0, 255, 0)
-        self.canvas_image[self.border:self.border + self.output_size[0], self.border:self.border + self.output_size[1]] = self.image
+        self.canvas_image[self.border:self.border + self.output_size[0], self.border:self.border + self.output_size[1]] = self.display_image
 
     def get_image(self):
         return self.canvas_image
