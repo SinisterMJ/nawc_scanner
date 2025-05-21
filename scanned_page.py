@@ -73,3 +73,6 @@ class Canvas():
     def get_image_path_for_printing(self):
         cv2.imwrite("temp.jpg", self.image)
         return "temp.jpg"
+    
+    def get_image_path(self):
+        return self.file

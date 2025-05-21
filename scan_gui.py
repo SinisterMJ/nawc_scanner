@@ -89,12 +89,12 @@ def print_selected():
 
 
 def finish_device():
+    for canvas in image_list:
+        # Delete files here
+        os.remove(canvas.get_image_path())
     image_list.clear()
     global fps
     fps = 1
-    for canvas in image_list:
-        # Delete files here
-        os.remove(canvas.get_image_path_for_printing())
 
 
 def click_event(event, x, y, flags, param):    
