@@ -13,6 +13,7 @@ from print import print_image
 from screeninfo import get_monitors
 from scanned_page import Canvas
 import os
+import datetime
 
 res_x_left = get_monitors()[0].width
 res_y_left = get_monitors()[0].height
@@ -28,6 +29,12 @@ fps = 1
 offset = 0
 max_scroll = False
 exit_code = False
+print_number = 0
+
+output_folder = "printed_images"
+
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
 
 
 def callback_keyboard(event):
@@ -47,6 +54,7 @@ def callback_arrival(letter: str):
     Args:
         letter (str): The drive letter of the connected device.
     """
+    time.sleep(3)
     file_list = glob.glob(letter + ":\\DCIM\\*\\*.jpg")
     for file in file_list:
         canvas = Canvas()
@@ -83,7 +91,12 @@ def display_image():
 def print_selected():
     for canvas in image_list:
         if canvas.printable:
-            print_image(canvas.get_image_path_for_printing())
+            now_str = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+            global print_number
+
+            filename = f"./printed_images/{now_str}_print_{print_number:04d}.jpg"
+            canvas.get_image_for_printing(filename)
+            print_image(filename)
             canvas.printable = False
             time.sleep(0.5)
 

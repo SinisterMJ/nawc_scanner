@@ -3,7 +3,7 @@ import numpy as np
 import math
 from image_helper import copy_with_alpha
 
-nawc_logo = cv2.imread("LOGO-Kreis.png", -1)
+nawc_logo = cv2.imread("./Images/LOGO-Kreis.png", -1)
 nawc_logo = cv2.resize(nawc_logo, (1000, 1000))
 
 
@@ -70,9 +70,8 @@ class Canvas():
     def get_image(self):
         return self.canvas_image
 
-    def get_image_path_for_printing(self):
-        cv2.imwrite("temp.jpg", self.image)
-        return "temp.jpg"
+    def get_image_for_printing(self, path):
+        cv2.imwrite(path, self.image)
     
     def get_image_path(self):
         return self.file

@@ -7,19 +7,19 @@ res_x = get_monitors()[0].width
 res_y = get_monitors()[0].height
 scale = 0.35
 
-printer = cv2.imread("Printer.png", -1)
+printer = cv2.imread("./Images/Printer.png", -1)
 printer = cv2.resize(printer, (300, 300), interpolation=cv2.INTER_LANCZOS4)
 
-finish = cv2.imread("Finish.png", -1)
+finish = cv2.imread("./Images/Finish.png", -1)
 finish = cv2.resize(finish, (printer.shape[0], printer.shape[1]), interpolation=cv2.INTER_LANCZOS4)
 
-nawc_logo = cv2.imread("LOGO-Kreis_300.png", -1)
+nawc_logo = cv2.imread("./Images/LOGO-Kreis_300.png", -1)
 nawc_logo = cv2.resize(nawc_logo, (printer.shape[0], printer.shape[1]), interpolation=cv2.INTER_LANCZOS4)
 
-background_idle = cv2.imread(filename="Scans_idle.png")
+background_idle = cv2.imread(filename="./Images/Scans_idle.png")
 background_idle = cv2.resize(background_idle, (res_x, res_y), interpolation=cv2.INTER_LANCZOS4)
 
-background_busy = cv2.imread(filename="Bild_2_lila.png")
+background_busy = cv2.imread(filename="./Images/Bild_2_lila.png")
 background_busy = cv2.resize(background_busy, (res_x, res_y), interpolation=cv2.INTER_LANCZOS4)
 
 _FULL_FRAMES = {}
