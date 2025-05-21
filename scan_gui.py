@@ -29,7 +29,7 @@ fps = 1
 offset = 0
 max_scroll = False
 exit_code = False
-print_number = 0
+print_number = 1
 
 output_folder = "printed_images"
 
@@ -99,6 +99,7 @@ def print_selected():
             print_image(filename)
             canvas.printable = False
             time.sleep(0.5)
+            print_number += 1
 
 
 def finish_device():
