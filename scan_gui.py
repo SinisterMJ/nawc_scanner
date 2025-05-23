@@ -99,6 +99,7 @@ def print_selected():
             print_image(filename)
             canvas.printable = False
             time.sleep(0.5)
+            canvas.get_original_image(filename)
             print_number += 1
 
 

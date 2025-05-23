@@ -32,11 +32,12 @@ class Canvas():
         h, w = self.image.shape[:2]
 
         # At this point, h > w, so insert at certain scale at bottom
-        size_cm_logo = 5
+        size_cm_logo = 2
         nawc_copy = nawc_logo.copy()
         size = int(w * size_cm_logo / 21)
         size = size // 2 * 2
         nawc_copy = cv2.resize(nawc_copy, (size, size))
+        self.original_image = self.image.copy()
         self.image[h - nawc_copy.shape[1] - 50:h - 50, w//2 - nawc_copy.shape[0]//2:w // 2 + nawc_copy.shape[0] // 2] = copy_with_alpha(self.image[h - nawc_copy.shape[1] - 50:h - 50, w//2 - nawc_copy.shape[0]//2:w // 2 + nawc_copy.shape[0] // 2], nawc_copy)
         self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.image = cv2.cvtColor(self.image, cv2.COLOR_GRAY2BGRA)
@@ -72,6 +73,9 @@ class Canvas():
 
     def get_image_for_printing(self, path):
         cv2.imwrite(path, self.image)
+
+    def get_original_image(self, path):
+        cv2.imwrite(path, self.original_image)
     
     def get_image_path(self):
         return self.file
