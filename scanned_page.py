@@ -45,8 +45,6 @@ class Canvas():
     
     def resize_image(self, width: int):
         h, w = self.image.shape[:2]
-        if w == width:
-            return
 
         ratio = width / w        
         new_size = int(w * ratio), int(h * ratio)
