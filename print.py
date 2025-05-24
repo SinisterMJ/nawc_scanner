@@ -47,3 +47,19 @@ def print_image(image_path):
         hdc.DeleteDC()
     finally:
         win32print.ClosePrinter(hprinter)
+
+def get_printable_area():
+    # Get the default printer
+    printer_name = win32print.GetDefaultPrinter()
+    hprinter = win32print.OpenPrinter(printer_name)
+
+    try:
+        # Start the print job
+        hdc = win32ui.CreateDC()
+        hdc.CreatePrinterDC(printer_name)
+        printable_area = hdc.GetDeviceCaps(8), hdc.GetDeviceCaps(10)
+        hdc.DeleteDC()
+    finally:
+        win32print.ClosePrinter(hprinter)
+
+    return printable_area
